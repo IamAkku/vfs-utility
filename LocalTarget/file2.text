@@ -1,0 +1,17 @@
+g The API
+The FileSystemManager interface provides access to Commons VFS. Using this interface you can locate files and create file systems. There are a number of ways to obtain a FileSystemManager instance. The simplest is to use the static VFS.getManager() method, which returns the default Commons VFS implementation.
+
+Once you have a FileSystemManager, you can use its resolveFile() methods to locate a file by name. For example:
+
+FileSystemManager fsManager = VFS.getManager();
+FileObject jarFile = fsManager.resolveFile("jar:lib/aJarFile.jar");
+Each file is represented by a FileObject instance. Using this interface you can create or delete the file, list its children, read or write its content, and so on. For example:
+
+// Locate the Jar file
+FileSystemManager fsManager = VFS.getManager();
+FileObject jarFile = fsManager.resolveFile("jar:lib/aJarFile.jar");
+
+// List the children of the Jar file
+FileObject[] children = jarFile.getChildren();
+System.out.println("Children of " + jarFile.getName().getURI());
+for (int i = 0; i < children.length; i++) {
