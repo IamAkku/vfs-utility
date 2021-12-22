@@ -1,6 +1,6 @@
 package com.perfios.service;
-
 import org.apache.commons.vfs2.*;
+import org.apache.commons.vfs2.provider.sftp.SftpFileSystemConfigBuilder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -12,10 +12,16 @@ public class VfsUtilityServiceImpl implements VfsUtilityService {
         FileSystemManager fsManager = null;
         try {
             fsManager = VFS.getManager();
-            FileObject fileToCopy = fsManager.resolveFile("C:\\Users\\DELL\\Desktop\\spring-application\\vfs-utility\\LocalSource\\file1.text");
 
+            FileSystemOptions opts = new FileSystemOptions();
+            SftpFileSystemConfigBuilder.getInstance().setStrictHostKeyChecking(
+                    opts, "no");
+            SftpFileSystemConfigBuilder.getInstance().setUserDirIsRoot(opts, true);
+            SftpFileSystemConfigBuilder.getInstance().setTimeout(opts, 10000);
 
-            FileObject destinationDirectory = fsManager.resolveFile("C:\\Users\\DELL\\Desktop\\spring-application\\vfs-utility\\LocalTarget");
+            FileObject fileToCopy = fsManager.resolveFile(source);
+
+            FileObject destinationDirectory = fsManager.resolveFile(target,opts);
             FileFilter nameFileFilter = new FileFilter() {
                 @Override
                 public boolean accept(FileSelectInfo fileSelectInfo) {
@@ -34,5 +40,18 @@ public class VfsUtilityServiceImpl implements VfsUtilityService {
 
         System.out.println("This is service test.");
         return false;
+    }
+
+    @Override
+    public void delete(String sourceUri) {
+
+        FileSystemManager fsManager = null;
+        try {
+            fsManager = VFS.getManager();
+            FileObject destinationDirectory = fsManager.resolveFile(sourceUri);
+            destinationDirectory.delete();
+        } catch (FileSystemException e) {
+            e.printStackTrace();
+        }
     }
 }

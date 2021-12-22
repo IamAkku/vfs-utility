@@ -7,4 +7,5 @@ public interface VfsUtilityService {
 
     public boolean Copy(String source,String target);
 
+    void delete(String sourceUri);
 }
