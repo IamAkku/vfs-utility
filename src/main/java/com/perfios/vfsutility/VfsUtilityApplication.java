@@ -29,9 +29,12 @@ VfsUtilityService vfsUtilityService;
 		String targetUri = "sftp://sftpuser:1234@localhost:2222/sftpuser/testFolder/";
 		vfsUtilityService.Copy(sourceUri,targetUri);
 
+
 //		 ************This is for delete************
+
 //		String targetUri = "sftp://sftpuser:1234@localhost:2222/sftpuser/testFolder/file1.text";
 //		vfsUtilityService.delete(targetUri);
+
 
 	}
 }
